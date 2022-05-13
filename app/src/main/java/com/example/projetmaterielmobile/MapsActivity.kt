@@ -23,6 +23,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     val listStationVelib: MutableList<StationVelib> = mutableListOf()
 
+
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
     private val paris = LatLng(48.8578, 2.3461)
@@ -48,7 +49,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setLatLngBoundsForCameraTarget(ileDeFranceBounds)
         mMap.setMinZoomPreference(9.7f)
 
-
         synchroApi()
 
         listStationVelib.map{
@@ -57,8 +57,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 MarkerOptions()
                     .position(coordoneeStation)
                     .title(it.name)
+                    .snippet("test")
             )
         }
+        mMap.setInfoWindowAdapter(CustomInfoWindowAdapter(this))
+
     }
 
     private fun synchroApi() {
@@ -78,17 +81,40 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val service = retrofit.create(StationVelibService::class.java)
 
         runBlocking {
-            val result = service.getLieuStation()
-            //Log.d(TAG, "synchroApi: ${result}")
-            val stations = result.data.stations
+            val resultLieu = service.getLieuStation()
+            val resultStatus = service.getStatusStation()
 
-            stations.map{
-                listStationVelib.add(it)
+
+            val stationsLieu = resultLieu.data.stations
+            val stationsStatus = resultStatus.data.stations
+
+            for(i in stationsLieu){
+                for(j in stationsStatus){
+                    if(i.station_id==j.station_id){
+
+                        val stationVelib = StationVelib(
+                            i.station_id,
+                            i.name,
+                            i.lat,
+                            i.lon,
+                            i.capacity,
+                            j.num_bikes_available,
+                            j.num_docks_available,
+                        )
+                        listStationVelib.add(stationVelib)
+                        break
+                    }
+                }
             }
+
+            /*stationsLieu.map{
+                while(it.station_id!=)
+
+                println(it.num_bikes_available)
+                listStationVelib.add(it)
+            }*/
 
         }
 
     }
-
-
 }
