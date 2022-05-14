@@ -1,16 +1,16 @@
 package com.example.projetmaterielmobile
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.projetmaterielmobile.api.StationVelibService
-
+import com.example.projetmaterielmobile.databinding.ActivityMapsBinding
+import com.example.projetmaterielmobile.model.MarkerHolder
+import com.example.projetmaterielmobile.model.StationVelib
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.example.projetmaterielmobile.databinding.ActivityMapsBinding
-import com.example.projetmaterielmobile.model.StationVelib
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.runBlocking
@@ -19,10 +19,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
+
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     val listStationVelib: MutableList<StationVelib> = mutableListOf()
-
+    val markerHolderMap = HashMap<String, MarkerHolder>()
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
@@ -50,17 +51,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setMinZoomPreference(9.7f)
 
         synchroApi()
+        addMarker()
 
-        listStationVelib.map{
-            val coordoneeStation = LatLng(it.lat.toDouble(), it.lon.toDouble())
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(coordoneeStation)
-                    .title(it.name)
-                    .snippet("test")
-            )
-        }
-        mMap.setInfoWindowAdapter(CustomInfoWindowAdapter(this))
+        mMap.setInfoWindowAdapter(CustomInfoWindowAdapter(this,markerHolderMap))
 
     }
 
@@ -106,15 +99,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
             }
-
-            /*stationsLieu.map{
-                while(it.station_id!=)
-
-                println(it.num_bikes_available)
-                listStationVelib.add(it)
-            }*/
-
         }
 
+    }
+
+    private fun addMarker(){
+
+        listStationVelib.map{
+            val coordoneeStation = LatLng(it.lat.toDouble(), it.lon.toDouble())
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .position(coordoneeStation)
+                    .title(it.name)
+                    .snippet(it.station_id.toString())
+            )
+            val mHolder=MarkerHolder(it.lat,it.lon,it.capacity,it.nbrVelosDispo,it.nbrDockDispo)
+            markerHolderMap.put(marker!!.id, mHolder);
+        }
     }
 }
