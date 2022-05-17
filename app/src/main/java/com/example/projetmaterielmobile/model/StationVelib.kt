@@ -1,4 +1,5 @@
 package com.example.projetmaterielmobile.model
+import java.io.Serializable
 
 data class StationVelib(
     val station_id:Long,
@@ -8,4 +9,4 @@ data class StationVelib(
     val capacity:Int,
     val nbrVelosDispo :Int,
     val nbrDockDispo:Int,
-)
+):Serializable

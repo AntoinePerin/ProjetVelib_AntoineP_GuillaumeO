@@ -1,6 +1,9 @@
 package com.example.projetmaterielmobile
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.projetmaterielmobile.api.StationVelibService
 import com.example.projetmaterielmobile.databinding.ActivityMapsBinding
@@ -24,6 +27,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     val listStationVelib: MutableList<StationVelib> = mutableListOf()
     val markerHolderMap = HashMap<String, MarkerHolder>()
+    val favoris: ArrayList<StationVelib> = ArrayList()
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
@@ -42,6 +46,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        findViewById<Button>(R.id.home_list_favoris).setOnClickListener{
+            val intent = Intent(this,ListFavorisActivity::class.java)
+            intent.putExtra("listFavoris",favoris)
+            startActivity(intent)
+
+        }
+
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -54,6 +67,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         addMarker()
 
         mMap.setInfoWindowAdapter(CustomInfoWindowAdapter(this,markerHolderMap))
+
+        mMap.setOnMarkerClickListener { marker ->
+            val markerName = marker.title
+            findViewById<Button>(R.id.home_add_favoris).setOnClickListener{
+                val idStation = marker.snippet
+                val stationFav = listStationVelib.find {it.station_id.toString()==idStation}
+                if (stationFav != null) {
+                    favoris.add(stationFav)
+                    Toast.makeText(this@MapsActivity, "La station $markerName a été ajouté aux favoris", Toast.LENGTH_SHORT).show()
+                }
+            }
+            false
+        }
 
     }
 
@@ -76,7 +102,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         runBlocking {
             val resultLieu = service.getLieuStation()
             val resultStatus = service.getStatusStation()
-
 
             val stationsLieu = resultLieu.data.stations
             val stationsStatus = resultStatus.data.stations
@@ -117,4 +142,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             markerHolderMap.put(marker!!.id, mHolder);
         }
     }
+
 }
