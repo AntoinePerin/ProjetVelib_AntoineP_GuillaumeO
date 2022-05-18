@@ -38,8 +38,8 @@ class StationVelibAdapter(val favoris: ArrayList<StationVelib>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavorisVIewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val clientView = inflater.inflate(R.layout.adapter_station_velib, parent, false)
-        return FavorisVIewHolder(clientView)
+        val velibView = inflater.inflate(R.layout.adapter_station_velib, parent, false)
+        return FavorisVIewHolder(velibView)
     }
 
     override fun getItemCount()=favoris.size

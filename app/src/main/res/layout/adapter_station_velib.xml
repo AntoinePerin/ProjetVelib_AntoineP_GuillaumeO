@@ -10,10 +10,10 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/adapter_client_imageview"
             android:layout_width="50dp"
-            tools:src="@drawable/velibLogo"
-            android:layout_height="50dp" >
+            tools:src="@drawable/logovelib"
+            android:layout_height="50dp"
+            android:contentDescription="logo application velib">
 
         </ImageView>
         <LinearLayout
