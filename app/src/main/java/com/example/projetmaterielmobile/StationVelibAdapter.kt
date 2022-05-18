@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projetmaterielmobile.model.StationVelib
 
-class StationVelibAdapter(val favoris: ArrayList<StationVelib>) :
+class StationVelibAdapter(val favoris: MutableList<StationVelib>) :
     RecyclerView.Adapter<StationVelibAdapter.FavorisVIewHolder>() {
 
     class FavorisVIewHolder(val view: View) : RecyclerView.ViewHolder(view)
@@ -22,9 +22,9 @@ class StationVelibAdapter(val favoris: ArrayList<StationVelib>) :
             val context = it.context
             val intent = Intent(context, DetailsStationVelibActivity::class.java)
             intent.putExtra("id", position)
-            context.startActivity(
+            /*context.startActivity(
                 intent
-            )
+            )*/
 
         }
         val textviewId = holder.view.findViewById<TextView>(R.id.adapter_stationvelib_id_text_view)
