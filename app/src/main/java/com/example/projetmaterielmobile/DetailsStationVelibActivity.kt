@@ -18,7 +18,7 @@ class DetailsStationVelibActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_station_velib)
 
-        val idStationSel = intent.getIntExtra("idStation", -1)
+        val idStationSel = intent.getLongExtra("idStation", -1)
 
         val tvNameStation = findViewById<TextView>(R.id.title)
         val tvIdStation = findViewById<TextView>(R.id.snippet)

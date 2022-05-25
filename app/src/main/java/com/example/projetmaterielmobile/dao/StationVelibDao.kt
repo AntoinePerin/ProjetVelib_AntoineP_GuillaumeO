@@ -11,7 +11,7 @@ interface StationVelibDao {
     fun getAll(): List<StationVelib>
 
     @Query("SELECT * FROM stationvelib WHERE station_id = (:stationId)")
-    fun loadById(stationId:Int): StationVelib
+    fun loadById(stationId:Long): StationVelib
 
     /*@Query("SELECT * FROM stationvelib WHERE fav='true'")
     fun loadAllFav(): List<StationVelib>

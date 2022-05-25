@@ -23,8 +23,8 @@ class StationVelibAdapter(val favoris: MutableList<StationVelib>) :
             val intent = Intent(context, DetailsStationVelibActivity::class.java)
             intent.putExtra("idStation", favoris.station_id)
             context.startActivity(intent)
-
         }
+
         val textviewId = holder.view.findViewById<TextView>(R.id.adapter_stationvelib_id_text_view)
         val textviewName = holder.view.findViewById<TextView>(R.id.adapter_stationvelib_name_textview)
 
