@@ -10,10 +10,10 @@ interface StationVelibDao {
     @Query("SELECT * FROM stationvelib")
     fun getAll(): List<StationVelib>
 
-    /*@Query("SELECT * FROM stationvelib WHERE station_id = (:stationId)")
-    fun loadById(stationId:Int): List<StationVelib>
+    @Query("SELECT * FROM stationvelib WHERE station_id = (:stationId)")
+    fun loadById(stationId:Int): StationVelib
 
-    @Query("SELECT * FROM stationvelib WHERE fav='true'")
+    /*@Query("SELECT * FROM stationvelib WHERE fav='true'")
     fun loadAllFav(): List<StationVelib>
 
     @Insert
@@ -21,5 +21,7 @@ interface StationVelibDao {
 
     @Insert
     fun insertStation(station:StationVelib)
+
+
 
 }

@@ -72,7 +72,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }catch (e: UnknownHostException){
             val alertDialogBuilder = AlertDialog.Builder(this)
             alertDialogBuilder.setMessage("Pas de connexion, les données velib ne sont pas accessibles ! Accès seulement à la liste des favoris !")
-            alertDialogBuilder.setPositiveButton("Yes"){ _, _ -> }
+            alertDialogBuilder.setPositiveButton("Yes"){ _, _ ->
+                finish()
+            }
             alertDialogBuilder.show()
         }
 
