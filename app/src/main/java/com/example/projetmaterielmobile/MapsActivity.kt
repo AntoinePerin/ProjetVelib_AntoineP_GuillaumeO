@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.room.Room
 import com.example.projetmaterielmobile.api.StationVelibService
 import com.example.projetmaterielmobile.database.AppDatabase
@@ -16,10 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -61,11 +59,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paris,11f))
         mMap.setLatLngBoundsForCameraTarget(ileDeFranceBounds)
         mMap.setMinZoomPreference(9.7f)
+        //mMap.isMyLocationEnabled = true
+
 
         try {
             synchroApi()
@@ -133,6 +135,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
     }
+    /*private val bicycleIcon: BitmapDescriptor by lazy {
+        val color = ContextCompat.getColor(this, R.color.black)
+        BitmapHelper.vectorToBitmap(this, R.drawable.ic_launcher_background, color)
+    }*/
 
     private fun addMarker(){
 
@@ -143,6 +149,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     .position(coordoneeStation)
                     .title(it.name)
                     .snippet(it.station_id.toString())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icone_velo))
+
             )
             val mHolder=MarkerHolder(it.lat,it.lon,it.capacity,it.nbrVelosDispo,it.nbrDockDispo)
             markerHolderMap.put(marker!!.id, mHolder);
