@@ -67,9 +67,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="Nombre de vélos disponibles :"
                 android:textColor="#000"
-                android:textSize="14sp"
-                android:text="Nombre de vélos dispo :"/>
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/nbrVelosDispo"
                 android:layout_width="wrap_content"
@@ -89,9 +89,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:text="Nombre de docks disponibles :"
                 android:textColor="#000"
-                android:textSize="14sp"
-                android:text="Nombre de docks dispo :"/>
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/nbrDockDispo"
                 android:layout_width="wrap_content"
